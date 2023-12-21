@@ -19,6 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/posts', [App\Http\Controllers\PostController::class, 'index']);
+Route::get('/posts/comments/{post_id}', [App\Http\Controllers\PostController::class, 'getComments']);
+Route::post('/post/comment/{post_id}',[App\Http\Controllers\PostController::class, 'comment']);
+
 
 Route::group(['prefix' =>'admin', 'middleware' =>'auth:admins'], function(){
     Route::post('/post', [App\Http\Controllers\PostController::class, 'store']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -68,9 +69,31 @@ class PostController extends Controller
             'comment' => 'required',
         ]);
 
-        $com = Comment::create([
-            'post_id'
+        $con = Comment::create([
+            'post_id'=> $post_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'comment' => $request->comment,
         ]);
 
+        if($con){
+            return response([
+                'message' => 'success'
+            ], 201);
+        }else{
+            return response([
+                'message' => 'error'
+            ], 400);
+        }
+
+    }
+
+    public function getComments($post_id)
+    {
+        $comments = Comment::wherePostId($post_id)->latest()->get();
+
+        return response([
+            'comments' => $comments
+        ], 200);
     }
 }
