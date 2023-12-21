@@ -18,8 +18,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/posts', [App\Http\Controllers\PostController::class, 'index']);
+
+Route::group(['prefix' =>'admin', 'middleware' =>'auth:admins'], function(){
+    Route::post('/post', [App\Http\Controllers\PostController::class, 'store']);
+});
+
 Route::get('/test', function(){
     return response([
         'message' => 'Blog Api',
     ]);
 });
+
+Route::post('/login', [App\Http\Controllers\Auth\AdminController::class, 'login']);
