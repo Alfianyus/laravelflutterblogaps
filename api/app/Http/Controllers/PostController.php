@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -69,14 +70,14 @@ class PostController extends Controller
             'comment' => 'required',
         ]);
 
-        $con = Comment::create([
+        $com = Comment::create([
             'post_id'=> $post_id,
             'name' => $request->name,
             'email' => $request->email,
             'comment' => $request->comment,
         ]);
 
-        if($con){
+        if($com){
             return response([
                 'message' => 'success'
             ], 201);
@@ -90,10 +91,10 @@ class PostController extends Controller
 
     public function getComments($post_id)
     {
-        $comments = Comment::wherePostId($post_id)->latest()->get();
+        $comments = Comment::with('post')->wherePostId($post_id)->latest()->get();
 
         return response([
-            'comments' => $comments
+            'comments' => CommentResource::collection($comments)
         ], 200);
     }
 }

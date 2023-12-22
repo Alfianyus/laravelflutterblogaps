@@ -20,8 +20,13 @@ class Post extends Model
         return $this->belongsTo(Admin::class);
     }
 
-    public function categories() 
+    public function categories() :HasMany
     {
         return $this->hasMany(Category::class, 'post_id');
+    }
+
+    public function comments() :HasMany
+    {
+        return $this->hasMany(Comment::class, 'post_id');
     }
 }
