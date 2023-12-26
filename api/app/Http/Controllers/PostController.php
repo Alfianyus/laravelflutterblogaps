@@ -94,7 +94,7 @@ class PostController extends Controller
         $comments = Comment::with('post')->wherePostId($post_id)->latest()->get();
 
         return response([
-            'comments' => CommentResource::collection($comments)
+            'comments' =>  $comments
         ], 200);
     }
 }
