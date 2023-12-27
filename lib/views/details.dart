@@ -55,6 +55,8 @@ class _PostDetailState extends State<PostDetail> {
               fontWeight: FontWeight.bold,
             ),
           ),
+          SizedBox(height: 20),
+          Text('Comment'),
         ],
       ),
     );
