@@ -19,14 +19,14 @@ class PostModel {
   List<Category> categories;
 
   PostModel({
-    this.id,
-    this.adminId,
-    this.title,
-    this.body,
-    this.image,
-    this.createdAt,
-    this.updatedAt,
-    this.categories,
+    required this.id,
+    required this.adminId,
+    required this.title,
+    required this.body,
+    required this.image,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.categories,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
@@ -60,11 +60,11 @@ class Category {
   DateTime updatedAt;
 
   Category({
-    this.id,
-    this.postId,
-    this.catName,
-    this.createdAt,
-    this.updatedAt,
+    required this.id,
+    required this.postId,
+    required this.catName,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(

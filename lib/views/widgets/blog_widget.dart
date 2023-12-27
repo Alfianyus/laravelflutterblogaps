@@ -4,10 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 class BlockWidget extends StatelessWidget {
   const BlockWidget({
     super.key,
-    required this.color,
+    required this.title,
+    required this.image,
+    required this.body,
+    required this.created_at,
   });
 
-  final Color color;
+  final String title;
+  final String image;
+  final String body;
+  final String created_at;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +23,9 @@ class BlockWidget extends StatelessWidget {
           child: Container(
             height: 200,
             decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(image),
+              ),
             ),
           ),
         ),
@@ -31,14 +38,14 @@ class BlockWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '25 feb',
+                  created_at,
                   style: GoogleFonts.workSans(
                     fontSize: 20,
                     color: Colors.black,
                   ),
                 ),
                 Text(
-                  'How to code tutorial',
+                  title,
                   style: GoogleFonts.workSans(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,

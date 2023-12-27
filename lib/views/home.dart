@@ -1,6 +1,9 @@
+import 'package:blogapp/controller/post_controller.dart';
 import 'package:blogapp/views/widgets/blog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
+import 'package:blogapp/constants/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final PostController _postController = Get.put(PostController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,30 +73,24 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(
                   height: 20,
                 ),
-                const BlockWidget(
-                  color: Colors.red,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const BlockWidget(
-                  color: Colors.blue,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const BlockWidget(
-                  color: Colors.green,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const BlockWidget(
-                  color: Colors.yellow,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
+                Obx(() {
+                  return _postController.isLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _postController.posts.value.length,
+                          itemBuilder: (context, index) {
+                            return BlockWidget(
+                              title: _postController.posts.value[index].title,
+                              image: '$postImageurl${_postController.posts.value[index].image}',
+                              body: _postController.posts.value[index].body,
+                              created_at: _postController.posts.value[index].createdAt.toIso8601String(),
+                            );
+                          },
+                        );
+                })
               ],
             ),
           ),
