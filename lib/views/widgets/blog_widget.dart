@@ -1,19 +1,15 @@
+import 'package:blogapp/constants/constants.dart';
+import 'package:blogapp/models/posts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BlockWidget extends StatelessWidget {
   const BlockWidget({
     super.key,
-    required this.title,
-    required this.image,
-    required this.body,
-    required this.created_at,
+    required this.posts,
   });
 
-  final String title;
-  final String image;
-  final String body;
-  final String created_at;
+  final PostModel posts;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +19,9 @@ class BlockWidget extends StatelessWidget {
           child: Container(
             height: 200,
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
               image: DecorationImage(
-                image: NetworkImage(image),
+                image: NetworkImage('$postImageurl${posts.image}'),
               ),
             ),
           ),
@@ -38,14 +35,14 @@ class BlockWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  created_at,
+                  posts.createdAt.toIso8601String(),
                   style: GoogleFonts.workSans(
                     fontSize: 20,
                     color: Colors.black,
                   ),
                 ),
                 Text(
-                  title,
+                  posts.title,
                   style: GoogleFonts.workSans(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
