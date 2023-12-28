@@ -1,16 +1,29 @@
 import 'package:blogapp/constants/constants.dart';
+import 'package:blogapp/controller/post_controller.dart';
 import 'package:blogapp/models/posts.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PostDetail extends StatefulWidget {
   const PostDetail({super.key, required this.posts});
 
   @override
   State<PostDetail> createState() => _PostDetailState();
+
   final PostModel posts;
 }
 
 class _PostDetailState extends State<PostDetail> {
+  final PostController _postController = Get.put(PostController());
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _postController.getComments(widget.posts.id);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +70,23 @@ class _PostDetailState extends State<PostDetail> {
           ),
           SizedBox(height: 20),
           Text('Comment'),
+          Obx(() {
+            return _postController.isLoading.value
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    itemCount: _postController.comments.value.length,
+                    shrinkWrap: true,
+                    itemBuilder: ((context, index) {
+                      return ListTile(
+                        title: Text(_postController.comments.value[index].comment),
+                        subtitle: Text(_postController.comments.value[index].name),
+                        trailing: Text(_postController.comments.value[index].email),
+                      );
+                    }),
+                  );
+          })
         ],
       ),
     );

@@ -40,13 +40,14 @@ class PostController extends GetxController {
     try {
       comments.value.clear();
       isLoading.value = true;
-      var response = await http.get(Uri.parse('$url/post/comments/$id'), headers: {
+      var response = await http.get(Uri.parse('${url}post/comments/$id'), headers: {
         'Accept': 'application/json',
       });
 
       if (response.statusCode == 200) {
         isLoading.value = false;
         final content = json.decode(response.body)['comments'];
+        print(content);
         for (var item in content) {
           comments.value.add(CommentModel.fromJson(item));
         }
